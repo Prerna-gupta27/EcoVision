@@ -96,18 +96,58 @@ function Dashboard() {
     }
   };
 
-  const selectedAQI =
-    cityMonthAQI[data.city]?.[data.month] ||
-    [120, 160, 90, 140];
+  function clamp(n, min, max) {
+    return Math.min(max, Math.max(min, n));
+  }
+
+  function getAqiLevelFromAvg(avg, isOpenWeatherScale) {
+    if (isOpenWeatherScale) {
+      if (avg >= 4.5) return "Very Poor";
+      if (avg >= 3.5) return "Poor";
+      if (avg >= 2.5) return "Moderate";
+      if (avg >= 1.5) return "Fair";
+      return "Good";
+    }
+
+    if (avg > 200) return "Very Poor";
+    if (avg > 150) return "Poor";
+    if (avg > 100) return "Moderate";
+    return "Good";
+  }
+
+  function toWeatherIndex(aqi) {
+    if (typeof aqi !== "number" || !Number.isFinite(aqi)) return 2;
+
+    // If already OpenWeather AQI (1–5)
+    if (aqi <= 5) return clamp(Math.round(aqi), 1, 5);
+
+    // Otherwise, map common AQI ranges to 1–5
+    if (aqi <= 50) return 1;
+    if (aqi <= 100) return 2;
+    if (aqi <= 150) return 3;
+    if (aqi <= 200) return 4;
+    return 5;
+  }
+
+  const liveAqi = apiResult?.aqi;
+  const hasLiveAqi = typeof liveAqi === "number" && Number.isFinite(liveAqi);
+  const isOpenWeatherScale = hasLiveAqi ? liveAqi <= 5 : false;
+  const weatherIndex = toWeatherIndex(liveAqi);
+
+  const selectedAQI = hasLiveAqi
+    ? [
+        clamp(liveAqi - (isOpenWeatherScale ? 0 : 12), isOpenWeatherScale ? 1 : 0, isOpenWeatherScale ? 5 : 500),
+        clamp(liveAqi + (isOpenWeatherScale ? 0.2 : 8), isOpenWeatherScale ? 1 : 0, isOpenWeatherScale ? 5 : 500),
+        clamp(liveAqi - (isOpenWeatherScale ? 0.1 : 5), isOpenWeatherScale ? 1 : 0, isOpenWeatherScale ? 5 : 500),
+        clamp(liveAqi + (isOpenWeatherScale ? 0.1 : 10), isOpenWeatherScale ? 1 : 0, isOpenWeatherScale ? 5 : 500)
+      ]
+    : (cityMonthAQI[data.city]?.[data.month] || [120, 160, 90, 140]);
 
   const avgAQI = Math.round(
     selectedAQI.reduce((a, b) => a + b, 0) / selectedAQI.length
   );
 
-  let aqiLevel = "Good";
-  if (avgAQI > 200) aqiLevel = "Very Poor";
-  else if (avgAQI > 150) aqiLevel = "Poor";
-  else if (avgAQI > 100) aqiLevel = "Moderate";
+  const aqiLevel = getAqiLevelFromAvg(avgAQI, isOpenWeatherScale);
 
   function getPersonalisedAdvice(aqiLevel, ageGroup, health) {
 
@@ -162,17 +202,40 @@ function Dashboard() {
       },
       {
         label: "Temperature (°C)",
-        data: [22, 25, 24, 26],
+        data:
+          typeof apiResult?.temperature === "number"
+            ? [
+                apiResult.temperature - 1,
+                apiResult.temperature,
+                apiResult.temperature + 1,
+                apiResult.temperature
+              ]
+            : [22, 25, 24, 26],
         backgroundColor: "#7e57c2"
       },
       {
         label: "Humidity (%)",
-        data: [60, 68, 72, 65],
+        data:
+          typeof apiResult?.humidity === "number"
+            ? [
+                clamp(apiResult.humidity - 3, 0, 100),
+                clamp(apiResult.humidity + 2, 0, 100),
+                clamp(apiResult.humidity + 4, 0, 100),
+                clamp(apiResult.humidity + 1, 0, 100)
+              ]
+            : [60, 68, 72, 65],
         backgroundColor: "#4fc3f7"
       },
       {
         label: "Weather Index",
-        data: [2, 3, 1, 2],
+        data: hasLiveAqi
+          ? [
+              clamp(weatherIndex - 1, 1, 5),
+              clamp(weatherIndex, 1, 5),
+              clamp(weatherIndex + 1, 1, 5),
+              clamp(weatherIndex, 1, 5)
+            ]
+          : [2, 3, 1, 2],
         backgroundColor: "#81c784"
       }
     ]
@@ -206,7 +269,10 @@ function Dashboard() {
           </div>
 
           <ul className="dark-pink-text">
-            <li><b>Average AQI :</b> {avgAQI}</li>
+            <li>
+              <b>Average AQI :</b> {avgAQI}{" "}
+              {hasLiveAqi && isOpenWeatherScale ? "(scale 1–5)" : ""}
+            </li>
             <li><b>Air quality level :</b> {aqiLevel}</li>
             <li>
               <b>Health risk indicator :</b>{" "}

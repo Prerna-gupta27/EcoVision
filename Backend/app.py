@@ -123,34 +123,9 @@ def predict():
         used_fallback = True
 
 
-    # -------- Age convert --------
-    age_map = {
-        "Child (0 - 12)":10,
-        "Teen (13 - 19)":16,
-        "Adult (20 - 59)":30,
-        "Older (60+)":65
-    }
-
-    age = age_map.get(ageGroup,30)
-
-
-    # -------- Health convert --------
-    health_map = {
-        "Normal":0,
-        "Asthma":1,
-        "COPD (lung problem)":2,
-        "Allergy / Dust allergy":1,
-        "Heart disease":2,
-        "High BP":2,
-        "Respiratory problem":2,
-        "Pregnancy (sensitive group)":1
-    }
-
-    health_val = health_map.get(health,0)
-
-
     # -------- Prediction input --------
-    features = np.array([[aqi, temperature, humidity, age, health_val]])
+    # Model is trained on: aqi, temperature, humidity
+    features = np.array([[aqi, temperature, humidity]])
 
     prediction = model.predict(features)[0]
 
