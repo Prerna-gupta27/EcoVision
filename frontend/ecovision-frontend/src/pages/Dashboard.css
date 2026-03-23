@@ -1,0 +1,170 @@
+.dashboard-container{
+  min-height:100vh;
+  background:#ffe6ee;
+  padding:40px 30px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* ---------------- Chart box ---------------- */
+
+.chart-box{
+  width:90%;
+  margin:28px 0 35px;
+}
+
+/* ---------------- Grid for cards ---------------- */
+
+.dash-grid{
+  width:90%;
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:32px;
+  margin-bottom:40px;
+}
+
+/* ---------------- Common card style ---------------- */
+
+.dash-box{
+  border:2px solid #5b2d8b;
+  border-radius:20px;
+  padding:24px 26px;
+  background:rgba(255,255,255,0.18);
+  box-shadow:0 8px 16px rgba(0,0,0,0.12);
+  color:#c2185b;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.dash-box:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 20px rgba(0,0,0,0.18);
+}
+
+/* ---------------- Card heading ---------------- */
+
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+/* emoji icon small circle */
+.title-icon{
+  background:#5b2d8b;
+  color:white;
+  width:32px;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:16px;
+  box-shadow:0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* 👉 MAIN HEADLINE PURPLE ROUNDED */
+.card-title span:last-child{
+  background:#5b2d8b;
+  color:white;
+  padding:6px 16px;
+  border-radius:999px;
+  font-weight:600;
+  font-size:15px;
+  box-shadow:0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* ---------------- Text styling ---------------- */
+
+.dash-box p{
+  color:#c2185b;
+  line-height:1.7;
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+.dark-pink-text{
+  color:#c2185b;
+}
+
+.hello-line{
+  font-weight:600;
+  margin-bottom:10px;
+}
+
+/* gap after top heading box */
+.dashboard-container .heading-box{
+  margin-bottom: 35px;
+}
+
+/* ---------------- Small screen support ---------------- */
+
+@media (max-width: 900px){
+  .dash-grid{
+    grid-template-columns:1fr;
+    width:95%;
+  }
+
+  .chart-box{
+    width:95%;
+  }
+}
+
+
+/* ===============================
+   REPORT – Advice box enhancement
+================================ */
+
+/* advice box full width */
+.advice-wide{
+  grid-column: 1 / -1;
+  background: rgba(255,255,255,0.28);   /* slightly stronger glass look */
+}
+
+/* flower style list – use side space */
+.advice-list{
+  list-style: none;
+  padding-left: 0;
+  margin-top: 16px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 28px;
+  row-gap: 14px;
+}
+
+/* each advice line */
+.advice-list li{
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.6;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+/* pink flower emoji */
+.advice-list .flower{
+  flex-shrink: 0;
+  margin-top: 2px;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
+}
+
+/* small medical note line */
+.advice-note{
+  margin-top: 18px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(91,45,139,0.4);
+  font-size: 12px;
+  color: #b31255;
+  
+  opacity: 0.9;
+}
+
+/* mobile friendly */
+@media (max-width: 900px){
+  .advice-list{
+    grid-template-columns: 1fr;
+  }
+}

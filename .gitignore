@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pkl
+
+# Keep the shipped model file in git (required to run out-of-the-box)
+!Backend/model/aqi_model.pkl
+
+# Virtual environments
+Backend/venv/
+.venv/
+venv/
+
+# Environment files
+.env
+Backend/.env
+
+# Node
+node_modules/
+frontend/ecovision-frontend/node_modules/
+
+# Vite build output
+frontend/ecovision-frontend/dist/
+
+# OS / Editor
+.DS_Store
+.vscode/
