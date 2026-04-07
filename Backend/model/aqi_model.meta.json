@@ -1,0 +1,58 @@
+{
+  "created_at_utc": "2026-04-07T08:19:15.143611+00:00",
+  "features": [
+    "aqi",
+    "temperature",
+    "humidity"
+  ],
+  "target": "risk",
+  "selected_candidate": "LogReg",
+  "best_params": {
+    "clf__C": 0.01
+  },
+  "metrics": {
+    "test_accuracy": 1.0,
+    "test_f1_macro": 1.0,
+    "cv_table": [
+      {
+        "model": "LogReg",
+        "cv_accuracy_mean": 1.0,
+        "cv_accuracy_std": 0.0,
+        "cv_f1_macro_mean": 1.0,
+        "cv_f1_macro_std": 0.0
+      },
+      {
+        "model": "RandomForest",
+        "cv_accuracy_mean": 1.0,
+        "cv_accuracy_std": 0.0,
+        "cv_f1_macro_mean": 1.0,
+        "cv_f1_macro_std": 0.0
+      },
+      {
+        "model": "ExtraTrees",
+        "cv_accuracy_mean": 1.0,
+        "cv_accuracy_std": 0.0,
+        "cv_f1_macro_mean": 1.0,
+        "cv_f1_macro_std": 0.0
+      },
+      {
+        "model": "DummyMostFrequent",
+        "cv_accuracy_mean": 0.9029179134129629,
+        "cv_accuracy_std": 0.0003450748932222175,
+        "cv_f1_macro_mean": 0.31632749339777416,
+        "cv_f1_macro_std": 6.351373902059972e-05
+      }
+    ]
+  },
+  "dataset": {
+    "path": "C:\\Users\\PRERNA\\OneDrive\\Desktop\\Ecovision final\\ecovision-main\\ecovision-main\\Backend\\model\\dataset\\best_combo_dataset.csv",
+    "sha256": "556bdf5ce490618acfeb76590d1013dca149ae233801d8b091670afae92b9fa0",
+    "rows": 6941
+  },
+  "environment": {
+    "python": "3.13.3",
+    "sklearn": "1.8.0",
+    "pandas": "2.3.1",
+    "numpy": "2.3.2"
+  }
+}
